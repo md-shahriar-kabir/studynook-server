@@ -29,6 +29,7 @@ async function run() {
 
     const db = client.db("studynook")
     const roomCollection = db.collection("rooms")
+    const bookingCollection = db.collection("bookings")
 
     app.get('/room', async (req, res) => {
       const result = await roomCollection.find().toArray()
@@ -37,7 +38,6 @@ async function run() {
 
     app.post('/room', async (req, res) => {
       const roomData = req.body
-      console.log(roomData)
       const result =await roomCollection.insertOne(roomData)
       res.json(result);
 
@@ -64,6 +64,20 @@ async function run() {
       const result =await roomCollection.deleteOne({_id:new ObjectId(id)})
       res.json(result)
     })
+
+    app.get('/booking/:userId', async (req, res) => {
+      const {userId} = req.params
+      const result = await bookingCollection.find({userId}).toArray()
+      res.json(result)
+    })
+
+     app.post('/booking', async (req, res) => {
+      const bookingData = req.body
+      const result =await bookingCollection.insertOne(bookingData)
+      res.json(result);
+
+    });
+
 
 
 
