@@ -28,13 +28,14 @@ const JWKS = createRemoteJWKSet(
   new URL(`${process.env.CLIENT_URL}/api/auth/jwks`)
 )
 
-const verifyToken =async (req, res, next) =>{
-  const authHeader = req?.headers.authorization
+const verifyToken = async (req, res, next) =>{
+  const authHeader = req?.headers?.authorization
   if(!authHeader){
     return res.status(401).json({message:"Unauthorized"});
   }
-  const token = authHeader.split(" ")[1]
-  console.log(authHeader)
+  const token = authHeader.split(" ")[1];
+  console.log(token)
+
   if(!token){
     return res.status(401).json({message:"Unauthorized"});
   }
@@ -74,7 +75,7 @@ async function run() {
 
     });
 
-    app.get('/room/:id', async (req, res) => {
+    app.get('/room/:id',verifyToken, async (req, res) => {
       const {id} = req.params
       const result  =  await roomCollection.findOne({_id: new ObjectId(id),
 
