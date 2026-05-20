@@ -62,7 +62,7 @@ async function run() {
       res.json(result);
     })
 
-    app.post('/room', verifyToken, async (req, res) => {
+    app.post('/room', async (req, res) => {
       const roomData = req.body
       const result =await roomCollection.insertOne(roomData)
       res.json(result);
