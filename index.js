@@ -113,7 +113,7 @@ async function run() {
 
     });
 
-    app.delete('/booking/:bookingId', async(req, res) => {
+    app.delete('/booking/:bookingId',verifyToken, async(req, res) => {
       const {bookingId} = req.params
       const result =await bookingCollection.deleteOne({_id:new ObjectId(bookingId)})
       res.json(result)
