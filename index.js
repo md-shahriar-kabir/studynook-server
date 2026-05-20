@@ -57,6 +57,11 @@ async function run() {
     const roomCollection = db.collection("rooms")
     const bookingCollection = db.collection("bookings")
 
+    app.get('/featured', async(req, res) =>{
+      const result = await roomCollection.find().limit(4).toArray()
+      res.json(result)
+    })
+
     app.get('/room', async (req, res) => {
       const result = await roomCollection.find().toArray()
       res.json(result);
@@ -69,7 +74,7 @@ async function run() {
 
     });
 
-    app.get('/room/:id', verifyToken, async (req, res) => {
+    app.get('/room/:id', async (req, res) => {
       const {id} = req.params
       const result  =  await roomCollection.findOne({_id: new ObjectId(id),
 
